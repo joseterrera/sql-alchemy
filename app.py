@@ -14,10 +14,38 @@ app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
 toolbar = DebugToolbarExtension(app)
 
+connect_db(app)
+db.create_all()
 
 
 @app.route('/')
 def root():
-  """Homepage redirects to list of users"""
-  return redirect('/users')
+    """Homepage redirects to list of users."""
+    return redirect("/users")
 
+
+@app.route('/users')
+def users_index():
+    """Show a page with info on all users"""
+    users = User.query.order_by(User.last_name, User.first_name).all()
+    return render_template('users/index.html', users=users)
+
+
+@app.route('/users/new', methods={"GET"})
+def users_new_form():
+  """Show form that creates a new user"""
+  return render_template('users/new.html')
+
+
+@app.route('/users/new', methods={"POST"})
+def users_new():
+  """Form submission for creating a new user"""
+  new_user = User(
+        first_name=request.form['first_name'],
+        last_name=request.form['last_name'],
+        image_url=request.form['image_url'] or None)
+
+  db.session.add(new_user)
+  db.session.commit()
+
+  return redirect("/users")
