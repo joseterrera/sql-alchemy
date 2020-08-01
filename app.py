@@ -1,19 +1,23 @@
-"""Blogly application."""
-
-from flask import Flask
-from models import db, connect_db
+from flask import Flask, request, redirect, render_template
+from flask_debugtoolbar import DebugToolbarExtension
+from models import db, connect_db, User
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///blogly'
+app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///blogly"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SQLALCHEMY_ECHO'] = True
+app.config['SECRET_KEY'] = 'ihaveasecret'
 
-connect_db(app)
-db.create_all()
+# Having the Debug Toolbar show redirects explicitly is often useful;
+# however, if you want to turn it off, you can uncomment this line:
+#
+app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-@app.route("/")
-def list_pets():
-    """List pets and show add form."""
+toolbar = DebugToolbarExtension(app)
 
-    pets = Pet.query.all()
-    return render_template("list.html", pets=pets)
+
+
+@app.route('/')
+def root():
+  """Homepage redirects to list of users"""
+  return redirect('/users')
+

@@ -5,8 +5,14 @@ db = SQLAlchemy()
 
 DEFAULT_IMAGE_URL = "https://www.freeiconspng.com/uploads/icon-user-blue-symbol-people-person-generic--public-domain--21.png"
 
-class User(db.model):
+class User(db.Model):
   """Site User"""
+  """Better reoresentation:"""
+  def __repr__(self):
+      """Show info about pet."""
+
+      p = self
+      return f"<User {p.id} {p.first_name} {p.last_name} {p.image_url}>"
 
   __tablename__ = 'users'
 
@@ -15,6 +21,7 @@ class User(db.model):
   last_name = db.Column(db.Text, nullable=False)
   image_url = db.Column(db.Text, nullable=False, default=DEFAULT_IMAGE_URL)
 
+# decorator @property
   @property
   def full_name(self):
     """Return full name of user"""
