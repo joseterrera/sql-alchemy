@@ -1,4 +1,7 @@
-This is a blogging application using flask and sql alchemy. Below are the steps that should get one started using the app:
+This is a blogging application using flask and sql alchemy and using basic CRUD operations. 
+
+
+Below are the steps that should get one started using the app:
 
 ### Packages installed
 ```console

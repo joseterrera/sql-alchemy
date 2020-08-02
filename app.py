@@ -5,14 +5,12 @@ from models import db, connect_db, User
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = "postgres:///blogly"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['SECRET_KEY'] = 'ihaveasecret'
+app.config['SECRET_KEY'] = 'cookie'
 
-# Having the Debug Toolbar show redirects explicitly is often useful;
-# however, if you want to turn it off, you can uncomment this line:
-#
-app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
 
-toolbar = DebugToolbarExtension(app)
+# app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
+
+# toolbar = DebugToolbarExtension(app)
 
 connect_db(app)
 db.create_all()
@@ -55,6 +53,13 @@ def users_new():
 @app.route('/users/<int:user_id>')
 def users_show(user_id):
   """Show a page with info on a specific user"""
+  user = User.query.get_or_404(user_id)
+  return render_template('users/show.html', user=user)
+
+
+@app.route('/users/<int:user_id>/edit')
+def users_edit(user_id):
+  """Show a form to edit an existing user"""
   user = User.query.get_or_404(user_id)
   return render_template('users/edit.html', user=user)
 
