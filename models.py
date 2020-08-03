@@ -28,7 +28,7 @@ class User(db.Model):
   @property
   def full_name(self):
     """Return full name of user"""
-    return f"( {self.first_name} {self.last_name} )"
+    return f" {self.first_name} {self.last_name} "
 
 class Post(db.Model):
   """Blog Post"""
