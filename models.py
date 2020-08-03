@@ -22,6 +22,8 @@ class User(db.Model):
   last_name = db.Column(db.Text, nullable=False)
   image_url = db.Column(db.Text, nullable=False, default=DEFAULT_IMAGE_URL)
 
+  posts = db.relationship("Post", backref="user", cascade="all, delete-orphan")
+
 # decorator @property
   @property
   def full_name(self):
@@ -49,10 +51,10 @@ class Post(db.Model):
     """Return formatted date"""
     # these directives, first 2 mean Weekday/Month as locale’s abbreviated name, and the third oneDay of the month as a decimal number.
 
-# second part %Y year without a decimal
-# %-I Hour (12-hour clock) as a decimal number. 
-# %M Month as a zero-padded decimal number.
-# %p AM or PM
+    # second part %Y year without a decimal
+    # %-I Hour (12-hour clock) as a decimal number. 
+    # %M Month as a zero-padded decimal number.
+    # %p AM or PM
     return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
 
 def connect_db(app):
