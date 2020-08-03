@@ -154,35 +154,21 @@ def posts_edit(post_id):
   return render_template('posts/edit.html', post=post)
 
 
-# @app.route('/posts/<int:post_id>/edit', methods=["POST"])
-# def posts_update(post_id):
-#   """Handle form submission for updating an existing post"""
-
-#   post = Post.query.get_or_404(post_id)
-#   # post.title = request.form['title']
-#   post.title = request.form['title']
-#   post.content = request.form['content']
-  
-#   db.session.add(post)
-#   db.session.commit()
-#   # flash(f"Post '{post.title}' edited")
-
-#   return redirect(f"/users/{post.user_id}")
-
-
 @app.route('/posts/<int:post_id>/edit', methods=["POST"])
 def posts_update(post_id):
-    """Handle form submission for updating an existing post"""
+  """Handle form submission for updating an existing post"""
 
-    post = Post.query.get_or_404(post_id)
-    post.title = request.form['title']
-    post.content = request.form['content']
+  post = Post.query.get_or_404(post_id)
+  # post.title = request.form['title']
+  post.title = request.form['title']
+  post.content = request.form['content']
+  
+  db.session.add(post)
+  db.session.commit()
+  # flash(f"Post '{post.title}' edited")
 
-    db.session.add(post)
-    db.session.commit()
-    flash(f"Post '{post.title}' edited.")
+  return redirect(f"/users/{post.user_id}")
 
-    return redirect(f"/users/{post.user_id}")
 
 @app.route('/posts/<int:post_id>/delete', methods=["POST"])
 def post_delete(post_id):
