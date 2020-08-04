@@ -1,5 +1,10 @@
 This is a blogging application using flask and sql alchemy and using basic CRUD operations. 
 
+There are three branches on this project:
+1. Master
+2. Part-two
+3. Part-Three
+
 
 Below are the steps that should get one started using the app:
 
