@@ -24,7 +24,6 @@ class User(db.Model):
 
   posts = db.relationship("Post", backref="user", cascade="all, delete-orphan")
 
-# decorator @property
   @property
   def full_name(self):
     """Return full name of user"""
@@ -56,6 +55,29 @@ class Post(db.Model):
     # %M Month as a zero-padded decimal number.
     # %p AM or PM
     return self.created_at.strftime("%a %b %-d  %Y, %-I:%M %p")
+
+# Many to many, a post can have many tags, and a tag can be associated to many posts.
+# The new table PostTag will connect to Post --E PostTag. ( "--E" is a crow feet ) and Tag --E PostTag.
+
+class PostTag(db.Model):
+  """Tag on a post"""
+  __tablename__ = "posts_tags"
+
+  post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), primary_key=True)
+  tag_id = db.Column(db.Integer, db.ForeignKey('tags.id'), primary_key=True)
+
+
+
+class Tag(db.Model):
+  """Tag that can be added to posts"""
+  __tablename__ = 'tags'
+
+  id = db.Column(db.Integer, primary_key=True)
+  name = db.Column(db.Text, nullable=False, unique=True)
+
+# through relationship, many to many. The association table is indicated by the secondary argument, which will be two way as indicated by the backref paremeter.
+  posts = db.relationship('Post', secondary="posts_tags", backref='tags',) 
+
 
 def connect_db(app):
   """Connect this database to provided flask app.

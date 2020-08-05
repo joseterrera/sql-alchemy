@@ -167,7 +167,7 @@ def posts_update(post_id):
   post.title = request.form['title']
   post.content = request.form['content']
 
-  tag_ids = [int(num) for num in request.form.getList('tags')]
+  tag_ids = [int(num) for num in request.form.getlist('tags')]
   post.tags = Tag.query.filter(tag.id.in_(tag_ids)).all()
   
   db.session.add(post)
